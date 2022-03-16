@@ -1,3 +1,5 @@
+package com.example.bottledispenser;
+
 public class Bottle {
     private String name;
     private String manufacturer;

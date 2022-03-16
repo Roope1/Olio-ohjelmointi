@@ -1,3 +1,5 @@
+package com.example.bottledispenser;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -7,7 +9,9 @@ public class BottleDispenser {
     private ArrayList<Bottle> Bottles = new ArrayList<>();
     private float money;
 
-    public BottleDispenser() {
+    private static BottleDispenser bd = new BottleDispenser();
+
+    private BottleDispenser() {
         money = 0;
 
         Bottles.add(new Bottle("Pepsi Max", "Pepsi", 0.3f, 0.5f, 1.8f));
@@ -18,8 +22,12 @@ public class BottleDispenser {
 
     }
 
-    public void addMoney() {
-        money += 1;
+    public static BottleDispenser getInstance(){
+        return bd;
+    }
+
+    public void addMoney(int amount) {
+        money += amount;
         System.out.println("Klink! Added more money!");
     }
 

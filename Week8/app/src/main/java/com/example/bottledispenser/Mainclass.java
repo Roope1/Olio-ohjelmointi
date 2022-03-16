@@ -1,10 +1,12 @@
+package com.example.bottledispenser;
+
 import java.util.Locale;
 import java.util.Scanner;
 
 public class Mainclass {
 
     public static void main(String[] args){
-        BottleDispenser bd = new BottleDispenser();
+        BottleDispenser bd = BottleDispenser.getInstance();
         Scanner sc = new Scanner(System.in);
         int choice;
 
@@ -13,7 +15,7 @@ public class Mainclass {
             choice = sc.nextInt();
 
             if(choice == 1) {
-                bd.addMoney();
+                bd.addMoney(1);
             } else if (choice == 2) {
                 bd.showBottleList();
                 System.out.print("Your choice: ");
