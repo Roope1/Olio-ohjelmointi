@@ -2,16 +2,16 @@ package com.example.bottledispenser;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class BottleDispenser {
     // The array for the Bottle-objects
     private ArrayList<Bottle> Bottles = new ArrayList<>();
     private float money;
 
-    private static BottleDispenser bd = new BottleDispenser();
+    private static BottleDispenser bd = null;
 
     private BottleDispenser() {
+        System.out.println("Bottle dispenser created!");
         money = 0;
 
         Bottles.add(new Bottle("Pepsi Max", "Pepsi", 0.3f, 0.5f, 1.8f));
@@ -23,6 +23,9 @@ public class BottleDispenser {
     }
 
     public static BottleDispenser getInstance(){
+        if(bd == null){
+            bd = new BottleDispenser();
+        }
         return bd;
     }
 
@@ -48,6 +51,10 @@ public class BottleDispenser {
     public void returnMoney() {
         System.out.printf("Klink klink. Money came out! You got %.2f€ back\n", money);
         money = 0;
+    }
+
+    public float getMoney(){
+        return money;
     }
 
     public void showBottleList() {
