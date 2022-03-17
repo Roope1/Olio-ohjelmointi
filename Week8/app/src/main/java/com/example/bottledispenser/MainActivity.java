@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     TextView rahaaKoneessa;
     TextView tapahtuma;
     Spinner lista;
+
+    ArrayList<Bottle> bottlesRaw;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
@@ -35,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         lista = (Spinner) findViewById(R.id.spinner);
 
 
-
         lisaaRahaa.setText("Lisää 0.00€");
         updateMoney();
+        updateBottleList();
 
         lisattavaRahaMaara.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -69,4 +73,13 @@ public class MainActivity extends AppCompatActivity {
         tapahtuma.setText(msg);
     }
 
+    void updateBottleList() {
+        bottlesRaw = bd.getBottleList();
+        ArrayList<String> bottleNames = new ArrayList<String>();
+        for(Bottle bottle : bottlesRaw) {
+            bottleNames.add(bottle.getName() + " " + bottle.getSize() + "l (" + df.format(bottle.getPrice()) + "€)");
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bottleNames);
+        lista.setAdapter(arrayAdapter);
+    }
 }

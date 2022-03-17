@@ -67,4 +67,8 @@ public class BottleDispenser {
         }
     }
 
+    public ArrayList<Bottle> getBottleList() {
+        return Bottles;
+    }
+
 }
