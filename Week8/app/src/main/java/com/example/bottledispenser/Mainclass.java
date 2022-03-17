@@ -20,7 +20,7 @@ public class Mainclass {
                 bd.showBottleList();
                 System.out.print("Your choice: ");
                 choice = sc.nextInt();
-                bd.buyBottle(choice);
+                //bd.buyBottle(choice);
             } else if (choice == 3) {
                 bd.returnMoney();
             } else if (choice == 4) {

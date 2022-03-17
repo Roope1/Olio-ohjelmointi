@@ -34,18 +34,8 @@ public class BottleDispenser {
         System.out.println("Klink! Added more money!");
     }
 
-    public void buyBottle(int index) {
-        if(Bottles.size() >= index -1) {
-            if (money > Bottles.get(index - 1).getPrice()) {
-                money -= Bottles.get(index - 1).getPrice();
-                System.out.println("KACHUNK! "+ Bottles.get(index - 1).getName() +" came out of the dispenser!");
-                Bottles.remove(index - 1);
-            } else {
-                System.out.println("Add money first!");
-            }
-        } else {
-            System.out.println("No bottles left!");
-        }
+    public void buyBottle(Bottle bottle) {
+        money -= bottle.getPrice();
     }
 
     public void returnMoney() {
