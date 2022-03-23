@@ -111,14 +111,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void printReceipt(View v) {
-        try {
-            OutputStreamWriter ows = new OutputStreamWriter(context.openFileOutput("kuitti.txt", Context.MODE_PRIVATE));
-            String s = "Item: " + previousBuy.getName() + " Size: " + previousBuy.getSize() + "L Price: " + previousBuy.getPrice() + "€.";
-            ows.write(s);
-            ows.close();
-            updateCurrentEvent("Kuitti kirjoitettu.");
-        } catch (IOException e){
-            Log.e("IOExeption", "Virhe tiedoston kirjoittamisessa");
+        if(previousBuy != null) {
+            try {
+                OutputStreamWriter ows = new OutputStreamWriter(context.openFileOutput("kuitti.txt", Context.MODE_PRIVATE));
+                String s = "Item: " + previousBuy.getName() + " Size: " + previousBuy.getSize() + "L Price: " + df.format(previousBuy.getPrice()) + "€.";
+                ows.write(s);
+                ows.close();
+                updateCurrentEvent("Kuitti kirjoitettu.");
+            } catch (IOException e) {
+                Log.e("IOExeption", "Virhe tiedoston kirjoittamisessa");
+            }
+        } else {
+            updateCurrentEvent("Ei edellistä ostoa");
         }
     }
+
+    public void returnMoney(View v) {
+        bd.returnMoney();
+        updateMoney();
+        updateCurrentEvent("Rahat palautettu");
+    }
+
 }
