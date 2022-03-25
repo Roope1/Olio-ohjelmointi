@@ -1,8 +1,6 @@
 package com.example.week9;
 
-import android.widget.ArrayAdapter;
 
-import androidx.annotation.Nullable;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,7 +22,7 @@ public class TheaterHandler {
     //Singleton model
     private static TheaterHandler th = null;
     ArrayList<Theater> theaters = new ArrayList<>();
-
+    ArrayList<Movie> movies = new ArrayList<>();
 
     public static TheaterHandler getInstance(){
         if(th == null){
@@ -56,11 +54,7 @@ public class TheaterHandler {
 
                 }
             }
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
     }
@@ -74,17 +68,20 @@ public class TheaterHandler {
         return theaterNames;
     }
 
-    public ArrayList<String> getMoviesByTheaterAndDate(int theaterId, Date date){
-        ArrayList<String> movies = new ArrayList<>();
-        String url = "https://www.finnkino.fi/xml/Schedule/?area="+ theaterId +"&dt=" + new SimpleDateFormat("dd.MM.yyyy").format(date);
+    public ArrayList<String> getMoviesByTheaterAndDate(int theaterId, String date){
+        if(date.equals("")) {
+            date = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+        }
+        ArrayList<String> movieNames = new ArrayList<>();
+        movies.clear();
+        //building the url from the given information
+        String url = "https://www.finnkino.fi/xml/Schedule/?area="+ theaterId +"&dt=" + date;
         try {
             // read the XML
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document doc = builder.parse(url);
             doc.getDocumentElement().normalize();
             NodeList nodes = doc.getDocumentElement().getElementsByTagName("Show");
-
-            // foreach theater in XML create a theater object with the data given
 
             for(int i = 0; i < nodes.getLength(); i++){
                 Node node = nodes.item(i);
@@ -93,20 +90,52 @@ public class TheaterHandler {
                     Element element = (Element) node;
 
                     // creating the actual object
-                    movies.add(element.getElementsByTagName("Title").item(0).getTextContent());
+                    movieNames.add(element.getElementsByTagName("Title").item(0).getTextContent());
+                    movies.add(new Movie(element.getElementsByTagName("Title").item(0).getTextContent(),
+                            Integer.parseInt(element.getElementsByTagName("ID").item(0).getTextContent()),
+                            element.getElementsByTagName("dttmShowStart").item(0).getTextContent().toString()));
 
                 }
             }
-        } catch (ParserConfigurationException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
+        }
+        return movieNames;
+    }
+
+    public ArrayList<String> filterByTime(ArrayList<String> movieNames, String startTime, String endTime){
+        if(startTime.isEmpty()){
+            return movieNames;
+        }
+        if(endTime.isEmpty()){
+            endTime = "23:59";
+        }
+
+        ArrayList<String> filteredMovies = new ArrayList<>();
+        String [] startTimeSplitted = startTime.split(":");
+        String [] endTimeSplitted = endTime.split(":");
+
+
+        for(int i = 0; i<movieNames.size(); i++){
+            Movie selectedMovie = movies.get(i);
+            String StartTimeHour = selectedMovie.getStartTime().split(":")[0];
+            String StartTimeMinute = selectedMovie.getStartTime().split(":")[1];
+
+            /* Shit code ahead, please wear your seatbelts and try not to puke */
+
+            if(Integer.parseInt(startTimeSplitted[0]) < Integer.parseInt(StartTimeHour) && Integer.parseInt(endTimeSplitted[0]) > Integer.parseInt(StartTimeHour)){
+                filteredMovies.add(selectedMovie.getTitle());
+            } else if ((Integer.valueOf(startTimeSplitted[0]) == Integer.valueOf(StartTimeHour) && (Integer.parseInt(startTimeSplitted[1]) < Integer.parseInt(StartTimeMinute)) &&
+                    (Integer.valueOf(endTimeSplitted[0]) > Integer.valueOf(StartTimeHour) ))) {
+                filteredMovies.add(selectedMovie.getTitle());
+            }
+
+            /* Shit code end */
+
         }
 
 
-        return movies;
+        return filteredMovies;
     }
 
 }
