@@ -1,7 +1,5 @@
 package com.example.week9;
 
-
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -121,12 +119,12 @@ public class TheaterHandler {
             String StartTimeHour = selectedMovie.getStartTime().split(":")[0];
             String StartTimeMinute = selectedMovie.getStartTime().split(":")[1];
 
-            /* Shit code ahead, please wear your seatbelts and try not to puke */
+            /* Shit code ahead, please wear your seatbelts and try not to puke. It works DO NOT TOUCH */
 
             if(Integer.parseInt(startTimeSplitted[0]) < Integer.parseInt(StartTimeHour) && Integer.parseInt(endTimeSplitted[0]) > Integer.parseInt(StartTimeHour)){
                 filteredMovies.add(selectedMovie.getTitle());
-            } else if ((Integer.valueOf(startTimeSplitted[0]) == Integer.valueOf(StartTimeHour) && (Integer.parseInt(startTimeSplitted[1]) < Integer.parseInt(StartTimeMinute)) &&
-                    (Integer.valueOf(endTimeSplitted[0]) > Integer.valueOf(StartTimeHour) ))) {
+            } else if ((Integer.valueOf(startTimeSplitted[0]).equals(Integer.valueOf(StartTimeHour)) && (Integer.parseInt(startTimeSplitted[1]) < Integer.parseInt(StartTimeMinute)) &&
+                    (Integer.parseInt(endTimeSplitted[0]) > Integer.parseInt(StartTimeHour) ))) {
                 filteredMovies.add(selectedMovie.getTitle());
             }
 
