@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     WebView webView;
     Button search;
     EditText URLbar;
+    String previousPageUrl;
+    String nextPageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
+                previousPageUrl = URLbar.getText().toString();
                 URLbar.setText(url);
             }
         });
@@ -38,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     public void search(View v){
         String url = URLbar.getText().toString();
 
-        // TODO Add url to history
         loadPage(url);
     }
 
@@ -47,11 +51,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void loadPage(String url){
-        if(!url.matches("(?i)^https?://.*")){
+        System.out.println(url);
+
+        if(!url.matches("(?i)^https?://.*") && !url.equals("index.html")){
             url = "http://" + url;
         }
 
+        if(url.equals("index.html")) {
+            url = "file:///android_asset/index.html";
+        }
         webView.loadUrl(url);
         URLbar.setText(webView.getUrl());
+    }
+
+    public void previousPage(View v){
+        if(previousPageUrl != null){
+            nextPageUrl = URLbar.getText().toString();
+            loadPage(previousPageUrl);
+        }
+    }
+    public void nextPage(View v){
+        if(nextPageUrl != null){
+            previousPageUrl = URLbar.getText().toString();
+            loadPage(nextPageUrl);
+        }
+    }
+
+    public void JSshoutOut(View v){
+        webView.evaluateJavascript("javascript:shoutOut()", null);
+    }
+    public void JSinitialize(View v){
+        webView.evaluateJavascript("javascript:initialize()", null);
     }
 }

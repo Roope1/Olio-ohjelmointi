@@ -11,7 +11,7 @@
         android:layout_width="61dp"
         android:layout_height="54dp"
         android:layout_marginBottom="4dp"
-        android:onClick="search"
+        android:onClick="reloadPage"
         app:icon="@android:drawable/ic_popup_sync"
         app:iconTint="#94FFFFFF"
         app:iconTintMode="multiply"
@@ -24,10 +24,12 @@
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="413dp"
-        android:layout_height="544dp"
+        android:layout_width="414dp"
+        android:layout_height="495dp"
+        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -56,5 +58,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="62dp"
+        android:layout_height="52dp"
+        android:onClick="previousPage"
+        app:icon="@android:drawable/ic_media_rew"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/webView" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="62dp"
+        android:layout_height="52dp"
+        android:onClick="nextPage"
+        app:icon="@android:drawable/ic_media_ff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/webView" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:onClick="JSshoutOut"
+        android:text="ShoutOut()"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/webView" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="JSinitialize"
+        android:text="Initialize"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/webView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
