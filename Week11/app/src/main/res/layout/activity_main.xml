@@ -15,27 +15,36 @@
 
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="660dp"
             android:background="#FFFFFF">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/holo_purple"
-                />
-        </com.google.android.material.appbar.AppBarLayout>
+                android:background="@android:color/holo_purple" />
 
+            <FrameLayout
+                android:id="@+id/frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_menu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/nav"
-        android:id="@+id/nav_menu"
         android:layout_gravity="start"
+        app:menu="@menu/nav"
 
-        />
+        >
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

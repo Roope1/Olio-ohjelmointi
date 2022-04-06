@@ -5,7 +5,6 @@
         <menu>
             <item
                 android:id="@+id/mainView"
-                android:checked="true"
                 android:title="Main view" />
 
             <item
