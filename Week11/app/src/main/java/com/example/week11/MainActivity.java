@@ -9,19 +9,31 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Switch;
+import android.widget.ToggleButton;
 
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    Fragment main = new frag_main();
+    Fragment settings = new frag_settings();
+
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private FrameLayout frameLayout;
+    private Switch canEdit;
+    private EditText editable;
+    static Boolean canEditTextStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_menu);
         frameLayout = findViewById(R.id.frame);
+        canEdit = findViewById(R.id.switch1);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openNav, R.string.closeNav);
 
@@ -41,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frame, new frag_main());
+        transaction.commit();
 
     }
 
@@ -49,14 +66,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
         if (item.getTitle().toString().equals("Settings")){
             System.out.println("Settings");
-            fragment = new frag_settings();
+            fragment = settings;
 
         } else if (item.getTitle().toString().equals("Main View")){
             System.out.println("Main View");
-            fragment = new frag_main();
+            fragment = main;
 
         } else {
-            fragment = new frag_main();
+            fragment = main;
         }
 
         FragmentManager manager = getSupportFragmentManager();
@@ -71,4 +88,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
     }
+
+
+
+
+
+
+
 }
